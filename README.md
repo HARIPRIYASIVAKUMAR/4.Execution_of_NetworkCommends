@@ -1,11 +1,7 @@
-# EXP: 4.Execution_of_NetworkCommands
-
-## AIM :
-Use of Network commands in Real Time environment
-## Software : 
-Command Prompt And Network Protocol Analyzer
-## Procedure: 
-To do this EXPERIMENT- follows these steps:
+# 4.Execution_of_NetworkCommands
+## AIM :Use of Network commands in Real Time environment
+## Software : Command Prompt And Network Protocol Analyzer
+## Procedure: To do this EXPERIMENT- follows these steps:
 <BR>
 In this EXPERIMENT- students have to understand basic networking commands e.g cpdump, netstat, ifconfig, nslookup ,traceroute and also Capture ping and traceroute PDUs using a network protocol analyzer 
 <BR>
@@ -30,14 +26,52 @@ This commands includes
 • Other IP Commands e.g. show ip route etc.
 <BR>
 
-## Output
-![CN 4 op1](https://github.com/22008837/4.Execution_of_NetworkCommends/assets/120194155/4e23df7c-e964-4273-9af7-d5bf0a07ded4)
-![cn 4 op2](https://github.com/22008837/4.Execution_of_NetworkCommends/assets/120194155/a4984aba-7fef-4bf8-86c4-8d716579c197)
-![cn 4 op3](https://github.com/22008837/4.Execution_of_NetworkCommends/assets/120194155/acb22158-5aba-4df4-b885-52cd9bbd82d8)
-![cn 4 op4](https://github.com/22008837/4.Execution_of_NetworkCommends/assets/120194155/6c999bb4-8992-4774-9e48-bd6433692b0a)
-![cn 4 op5](https://github.com/22008837/4.Execution_of_NetworkCommends/assets/120194155/a8ae6d41-4892-413a-8738-4129018acea8)
+## CODE
+CLIENT :
+```
+import socket 
+from pythonping import ping 
+s=socket.socket() 
+s.bind(('localhost',8000)) 
+s.listen(5) 
+c,addr=s.accept() 
+while True: 
+    hostname=c.recv(1024).decode() 
+    try: 
+        c.send(str(ping(hostname, verbose=False)).encode()) 
+    except KeyError: 
+        c.send("Not Found".encode())
+```
+SERVER :
+```
+import socket 
+s=socket.socket() 
+s.connect(('localhost',8000)) 
+while True: 
+    ip=input("Enter the website you want to ping ") 
+    s.send(ip.encode()) 
+    print(s.recv(1024).decode()) 
+```
+TRACER :
+```
+from scapy.all import* 
+target = ["www.google.com"] 
+result, unans = traceroute(target,maxttl=32) 
+print(result,unans) 
+```
 
-![cn 4 op6](https://github.com/22008837/4.Execution_of_NetworkCommends/assets/120194155/86304eb4-5979-4d3f-90b9-c69f2276a5e0)
+## Output
+TRACER :
+
+![Screenshot 2024-04-24 053041](https://github.com/nivethasuresh1408/4.Execution_of_NetworkCommends/assets/152055927/01764015-00f7-4c30-830f-3f2cc2f2816f)
+
+CLIENT :
+
+![Screenshot 2024-04-24 052835](https://github.com/nivethasuresh1408/4.Execution_of_NetworkCommends/assets/152055927/6095ea6e-67de-4ce5-bf3d-650f20d9dd5c)
+
+SERVER :
+
+![Screenshot 2024-04-24 052846](https://github.com/nivethasuresh1408/4.Execution_of_NetworkCommends/assets/152055927/449b2de0-b41b-4a21-ae7f-dd7618fc84ed)
 
 ## Result
 Thus Execution of Network commands Performed 
